@@ -1,7 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
-from fastapi import FastAPI
+from fastapi import FastAPI,Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 import time
 
 app=FastAPI()
@@ -34,5 +35,22 @@ def getMkVlink(id,max_tries=10):
 			return {
 				"status":"failure",
 				"data":"please contact datta, there is some error"}
+
+
+@app.api_route("/tvschedule/{path_params:path}", methods=["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS", "HEAD"])
+@app.api_route("/tvschedule", methods=["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS", "HEAD"])
+async def tvschedule(request: Request, path_params: str = None):
+    response_message = {
+        "status": "error",
+        "message": "This API has been moved to https://rapidapi.com/Garuda07/api/indian-tv-schedule-api due to unforeseen circumstances.",
+        "migration_info": {
+            "moved_since": "2024-10-31",
+            "new_api_url": "https://rapidapi.com/Garuda07/api/indian-tv-schedule-api",
+            "documentation_url": "https://rapidapi.com/Garuda07/api/indian-tv-schedule-api/docs"
+        },
+        "status_code": 301,  # 301 Moved Permanently status code for API relocation
+        "request_id": request.headers.get("X-Request-ID", "N/A")
+    }
+    return JSONResponse(content=response_message, status_code=301)
 
 
